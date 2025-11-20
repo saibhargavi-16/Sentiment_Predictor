@@ -3,8 +3,8 @@ from transformers import pipeline
 
 st.set_page_config(page_title="Sentiment Analysis Dashboard", layout="wide")
 
-st.title("🔥 Sentiment Analysis Dashboard (No Token Needed)")
-st.write("Analyze text using a free built-in BERT model!")
+st.title("🔥 Sentiment Analysis Dashboard")
+st.write("Analyze the text as positive and negative!")
 
 # Load BERT model
 @st.cache_resource
@@ -58,3 +58,4 @@ if uploaded_file:
 
         csv_download = df.to_csv(index=False).encode("utf-8")
         st.download_button("⬇️ Download Results", csv_download, "sentiment_results.csv", "text/csv")
+
