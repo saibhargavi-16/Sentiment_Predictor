@@ -1,5 +1,6 @@
 import streamlit as st
 from transformers import pipeline
+import pandas as pd
 
 st.set_page_config(page_title="Sentiment Analysis Dashboard", layout="wide")
 
@@ -26,11 +27,14 @@ if st.button("Analyze"):
         label = result["label"]
         score = result["score"]
 
-        st.write(f"### **Prediction:** {label}")
+        # Add emojis
+        emoji = "😀" if label == "POSITIVE" else "😞"
+
+        st.write(f"### **Prediction:** {emoji} {label}")
         st.write(f"### **Confidence:** {score:.3f}")
 
     except Exception as e:
-        st.error("Error analyzing text.")
+        st.error(f"Error analyzing text: {e}")
 
 # -------------------------
 # CSV Upload
@@ -40,8 +44,6 @@ st.subheader("📂 Upload CSV")
 uploaded_file = st.file_uploader("Upload CSV containing a 'text' column", type=["csv"])
 
 if uploaded_file:
-    import pandas as pd
-
     df = pd.read_csv(uploaded_file)
 
     if "text" not in df.columns:
@@ -53,9 +55,11 @@ if uploaded_file:
         df["label"] = df["result"].apply(lambda x: x["label"])
         df["confidence"] = df["result"].apply(lambda x: x["score"])
 
+        # Add emojis to CSV results
+        df["emoji"] = df["label"].apply(lambda x: "😀" if x == "POSITIVE" else "😞")
+
         st.success("Done!")
-        st.dataframe(df[["text", "label", "confidence"]])
+        st.dataframe(df[["text", "label", "emoji", "confidence"]])
 
         csv_download = df.to_csv(index=False).encode("utf-8")
         st.download_button("⬇️ Download Results", csv_download, "sentiment_results.csv", "text/csv")
-
