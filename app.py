@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
 st.set_page_config(page_title="Advanced Text + Emotion Analyzer", layout="wide")
-st.title("🔥 Advanced Text Analyzer (Sentiment • Emotion • Type • Idiom)")
+st.title("🔥 Sentiment Text Analyzer (Sentiment • Emotion • Type • Idiom)")
 st.write("Sentiment + Emotion + Sentence Type + Idiom Detection with emojis")
 
 # -----------------------------
@@ -210,3 +210,4 @@ if uploaded_file:
 
             csv_data = df.to_csv(index=False).encode("utf-8")
             st.download_button("⬇️ Download Results", csv_data, "enhanced_emotion_results.csv", "text/csv")
+
